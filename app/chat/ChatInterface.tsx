@@ -68,7 +68,7 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
         aiCharacter: '',                                  // 直接赋值
         timestamp: new Date(),
         score: 85
-      };
+      }as const;
       
       setMessages(prev => [...prev, userMessage]);
       
