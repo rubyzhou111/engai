@@ -59,10 +59,13 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
       setCurrentAudioLevel(0);
       
       // 模拟用户消息
+      
       const userMessage = {
         id: messages.length + 1,
         type: 'user',
         content: 'I would like a cappuccino and a croissant, please.',
+        translation: '我想要一杯卡布奇诺和一个面包',  // 直接赋值
+        aiCharacter: '',                                  // 直接赋值
         timestamp: new Date(),
         score: 85
       };
