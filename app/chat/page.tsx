@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import TopNavigation from '../../components/TopNavigation';
 import BottomNavigation from '../../components/BottomNavigation';
 import ChatInterface from './ChatInterface';
@@ -11,9 +11,11 @@ export default function ChatPage() {
     id: 'coffee-shop',
     title: '咖啡店点单',
     level: '商务中级',
-    background: 'Coffee shop interior with soft lighting, blurred background, cozy atmosphere, warm tones, realistic coffee shop environment'
+    background: 'Coffee shop interior with soft lighting, blurred background, cozy atmosphere, warm tones, realistic coffee shop environment',
+    description: '在咖啡店点单的商务中级场景',
+    difficulty: 2,
   });
-  
+
   const [showScenarioSelector, setShowScenarioSelector] = useState(false);
 
   return (

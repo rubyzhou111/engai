@@ -5,6 +5,18 @@ import VoiceVisualizer from './VoiceVisualizer';
 import MessageBubble from './MessageBubble';
 import AIAvatar from './AIAvatar';
 
+type MessageType = 'user' | 'ai';
+
+interface Message {
+  id: number;
+  type: MessageType;
+  content: string;
+  translation?: string;
+  timestamp: Date;
+  score?: number;
+  aiCharacter?: string;
+}
+
 interface ChatInterfaceProps {
   scenario: {
     id: string;
@@ -15,7 +27,7 @@ interface ChatInterfaceProps {
 }
 
 export default function ChatInterface({ scenario }: ChatInterfaceProps) {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
       type: 'ai',
@@ -25,7 +37,7 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
       aiCharacter: 'friendly-barista'
     }
   ]);
-  
+
   const [isRecording, setIsRecording] = useState(false);
   const [isAIThinking, setIsAIThinking] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
@@ -47,7 +59,6 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
 
   const handleStartRecording = () => {
     setIsRecording(true);
-    // 模拟录音过程
     const interval = setInterval(() => {
       setCurrentAudioLevel(Math.random() * 100);
     }, 100);
@@ -57,25 +68,23 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
       setIsAIThinking(true);
       clearInterval(interval);
       setCurrentAudioLevel(0);
-      
-      // 模拟用户消息
-      
-      const userMessage = {
+
+      const userMessage: Message = {
         id: messages.length + 1,
         type: 'user',
         content: 'I would like a cappuccino and a croissant, please.',
-        translation: '我想要一杯卡布奇诺和一个面包',  // 直接赋值
-        aiCharacter: '',                                  // 直接赋值
+        translation: '我想要一杯卡布奇诺和一个面包',
+        aiCharacter: '',
         timestamp: new Date(),
         score: 85
-      }as const;
-      
+      };
+
       setMessages(prev => [...prev, userMessage]);
-      
-      // 模拟AI回复
+
       setTimeout(() => {
         setIsAIThinking(false);
-        const aiMessage = {
+
+        const aiMessage: Message = {
           id: messages.length + 2,
           type: 'ai',
           content: 'Great choice! Would you like that cappuccino with regular milk or would you prefer a plant-based alternative?',
@@ -83,6 +92,7 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
           timestamp: new Date(),
           aiCharacter: 'friendly-barista'
         };
+
         setMessages(prev => [...prev, aiMessage]);
       }, 2000);
     }, 3000);
@@ -125,7 +135,7 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
             backgroundImage: `url(https://readdy.ai/api/search-image?query=$%7Bscenario.background%7D&width=400&height=600&seq=chat-bg-01&orientation=portrait)`
           }}
         ></div>
-        
+
         {/* 对话区域 */}
         <div className="relative z-10 h-full flex flex-col">
           <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
@@ -136,7 +146,7 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
                 showTranslation={showTranslation}
               />
             ))}
-            
+
             {isAIThinking && (
               <div className="flex items-center space-x-3 px-4">
                 <AIAvatar isThinking={true} character="friendly-barista" />
@@ -149,7 +159,7 @@ export default function ChatInterface({ scenario }: ChatInterfaceProps) {
                 </div>
               </div>
             )}
-            
+
             <div ref={messagesEndRef} />
           </div>
 

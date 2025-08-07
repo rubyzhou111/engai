@@ -6,11 +6,26 @@ import BottomNavigation from '../../components/BottomNavigation';
 import PronunciationAnalysis from './PronunciationAnalysis';
 import RecordingInterface from './RecordingInterface';
 
+type AnalysisData = {
+  overallScore: number;
+  fluency: number;
+  accuracy: number;
+  clarity: number;
+  errors: Array<{
+    word: string;
+    position: number;
+    correction: string;
+    userPronunciation: string;
+  }>;
+  text: string;
+  audioUrl: string;
+};
+
 export default function PronunciationPage() {
   const [hasRecording, setHasRecording] = useState(false);
-  const [analysisData, setAnalysisData] = useState(null);
+  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
 
-  const handleRecordingComplete = (data: any) => {
+  const handleRecordingComplete = (data: AnalysisData) => {
     setAnalysisData(data);
     setHasRecording(true);
   };
@@ -42,7 +57,7 @@ export default function PronunciationPage() {
         {!hasRecording ? (
           <RecordingInterface onRecordingComplete={handleRecordingComplete} />
         ) : (
-          <PronunciationAnalysis data={analysisData} />
+          analysisData && <PronunciationAnalysis data={analysisData} />
         )}
       </div>
 
